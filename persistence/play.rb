@@ -1,21 +1,17 @@
-class Player
-  attr_reader :symbol, :name
+require './db/setup'
+require './lib/all'
+require 'pry'
 
-  def initialize symbol
-    @symbol = symbol
-    print "Player #{symbol}! What is your name? "
-    @name = gets.chomp
-  end
-end
+class TicTacToe 
+  attr_reader :current_player, :player_o, :player_x
 
-class TicTacToe
-  attr_reader :current_player
-
-  def initialize
-    @players = [Player.new(:x), Player.new(:o)]
+  def initialize player_x, player_o
+    @player_x = player_x
+    @player_o = player_o
+    @current_symbol = :x
+    # @players = [Player.new(:x), Player.new(:o)]
     @board   = Array.new 9
-
-    @current_player = @players.first
+    @current_player = @player_x
   end
 
   def over?
@@ -31,7 +27,7 @@ class TicTacToe
   end
 
   def record_move position
-    @board[position.to_i - 1] = @current_player.symbol
+    @board[position.to_i - 1] = @current_symbol
   end
 
   def lines
@@ -73,17 +69,21 @@ class TicTacToe
   end
 
   def toggle_players
-    if @current_player == @players.first
-      @current_player = @players.last
+    if @current_player == @player_x
+      @current_symbol = :o
+      @current_player = @player_o
     else
-      @current_player = @players.first
+      @current_symbol = :x
+      @current_player = @player_x
     end
   end
 end
 
-
-ttt = TicTacToe.new
-
+p1 = User.make_user
+p2 = User.make_user
+ttt = TicTacToe.new p1, p2
+puts "#{p1.name} has #{Stat.wins(p1)} wins and #{Stat.losses(p1)} losses."
+puts "#{p2.name} has #{Stat.wins(p2)} wins and #{Stat.losses(p2)} losses."
 until ttt.over?
   puts ttt.display_board
   print "#{ttt.current_player.name} - where would you like to play? "
@@ -93,7 +93,14 @@ until ttt.over?
 end
 
 if ttt.winner
-  puts "#{ttt.winner} wins!"
+  if ttt.winner == :x
+    puts "#{p1.name} wins!"
+    Stat.create! player_x_id: ttt.player_x.id, player_o_id: ttt.player_o.id, player_x_won: true, player_o_won: false, draw: false
+  elsif ttt.winner == :o 
+    puts "#{p2.name} wins!"
+    Stat.create! player_x_id: ttt.player_x.id, player_o_id: ttt.player_o.id, player_x_won: false, player_o_won: true, draw: false
+  end
 else
   puts "It's a draw"
+  Stat.create! player_x_id: ttt.player_x.id, player_o_id: ttt.player_o.id, player_x_won: false, player_o_won: false, draw: true
 end

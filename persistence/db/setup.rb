@@ -1,7 +1,7 @@
 require 'active_record'
 require 'yaml'
 
-LOG = true
+# LOG = true
 
 db_config = YAML::load(File.open('config/database.yml'))
 
@@ -11,9 +11,9 @@ else
   db_config["development"]
 end
 
-if LOG
-  ActiveRecord::Base.logger = Logger.new(STDOUT)
-end
+# if LOG
+#   ActiveRecord::Base.logger = Logger.new(STDOUT)
+# end
 
 raise "Could not find database config for environment" unless env_config
 ActiveRecord::Base.establish_connection(env_config)
