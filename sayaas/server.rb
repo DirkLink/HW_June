@@ -8,20 +8,9 @@ class MyServer < Sinatra::Base
 
   set :bind, "0.0.0.0"
 
-  get '/say_hello' do
-    system "say 'Hello world'"
-  end
-
-  # -----
-
-  get "/bad/echo" do
-    puts "What word? "
-    word = gets.chomp
-    "Your word was: #{word}"
-  end
-
-  delete "/echo/:word" do
-    params[:word]
+  get '/say_stuff' do
+    phrase = params[:param]
+    system "say #{phrase}"
   end
 end
 
