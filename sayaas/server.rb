@@ -12,37 +12,7 @@ class MyServer < Sinatra::Base
     system "say 'Hello world'"
   end
 
-  # List of all ideas
-  get '/idea_list' do
-    headers["Content-Type"] = "application/json"
-  end
-
-  post '/new_idea' do
-    Database.push params[:idea]
-    response = { status: :ok, id: (Database.length - 1) }
-    JSON.unparse response
-  end
-
-  get '/idea/:id' do
-    position = params[:id].to_i
-    idea     = Database[position]
-    JSON.unparse({ id: position, idea: idea })
-  end
-
   # -----
-
-  get '/hi' do
-    "Hello World!"
-  end
-
-  get "/hello" do
-    "No really, hello"
-  end
-
-  post "/hi" do
-    puts "I'm in the /hi POST handler"
-    "Hello World!".reverse
-  end
 
   get "/bad/echo" do
     puts "What word? "
