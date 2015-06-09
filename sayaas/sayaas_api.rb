@@ -5,11 +5,6 @@ class Speaker
   include HTTParty
   base_uri '10.1.10.139:4567'
 
-  # default_options[:headers] = {
-  #   "Authorization" => "token #{Token}",
-  #   "User-Agent"    => "Wandows Explrer"
-  # }
-
   def initialize voice=nil
     @voice = voice
   end
@@ -23,6 +18,3 @@ class Speaker
     Speaker.get("/user")
   end
 end
-
-# require "pry"
-# binding.pry
