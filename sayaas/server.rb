@@ -10,9 +10,8 @@ class MyServer < Sinatra::Base
 
   get '/say_stuff' do
     phrase = params[:param]
-    svoice = params[:voice]
-    # binding.pry
-    system("say -v '#{svoice}' '#{phrase}'")
+    voice = params[:voice]
+    system("say","-v",voice ,phrase)
   end
 end
 
