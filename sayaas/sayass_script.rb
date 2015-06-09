@@ -1,3 +1,4 @@
+require './sayaas_api'
 
-t = Speaker.new(voice: "Good News")
+t = Speaker.new("Cellos")
 t.speak("Hello!")

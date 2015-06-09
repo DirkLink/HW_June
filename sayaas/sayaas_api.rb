@@ -11,11 +11,11 @@ class Speaker
   # }
 
   def initialize voice=nil
-
+    @voice = voice
   end
 
   def speak param
-    Speaker.get("/say_stuff", query: { param: param })
+    Speaker.get("/say_stuff", query: { param: param, voice: @voice })
   end
 
 
@@ -24,5 +24,5 @@ class Speaker
   end
 end
 
-require "pry"
-binding.pry
+# require "pry"
+# binding.pry
