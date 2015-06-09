@@ -2,10 +2,6 @@ require 'sinatra/base'
 require 'json'
 require 'pry'
 
-Database = [
-  "Twitter for dolphins",
-  "Snapchat for snapping turtles"
-]
 
 class MyServer < Sinatra::Base
   enable :logging
@@ -19,7 +15,6 @@ class MyServer < Sinatra::Base
   # List of all ideas
   get '/idea_list' do
     headers["Content-Type"] = "application/json"
-    JSON.unparse Database
   end
 
   post '/new_idea' do
@@ -32,10 +27,6 @@ class MyServer < Sinatra::Base
     position = params[:id].to_i
     idea     = Database[position]
     JSON.unparse({ id: position, idea: idea })
-  end
-
-  get '/idea' do
-    Database.sample
   end
 
   # -----
