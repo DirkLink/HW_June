@@ -1,7 +1,6 @@
 require 'httparty'
 
 class GithubAPI
-  Token = File.read "./token"
 
   include HTTParty
   base_uri 'https://api.github.com'
