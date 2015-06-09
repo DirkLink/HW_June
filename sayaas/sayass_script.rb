@@ -1,3 +1,3 @@
 
-t = Speaker.new(voice: )
+t = Speaker.new(voice: "Good News")
 t.speak("Hello!")

@@ -14,6 +14,11 @@ class Speaker
 
   end
 
+  def speak param
+    Speaker.get("/say_stuff", query: { param: param })
+  end
+
+
   def me
     Speaker.get("/user")
   end
