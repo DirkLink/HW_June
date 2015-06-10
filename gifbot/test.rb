@@ -54,6 +54,26 @@ class GifBotTest < Minitest::Test
     assert_equal "true", last_response.body
   end
 
+  def test_list_all_gifs
+    u = User.create! name: "shark" 
+    p = User.create! name: "pancake"
+    b = User.create! name: "baby"
+    r = User.create! name: "robot"
+    u.gifs.create! url: "http://moar.edgecats.net/cats/funny-gifs-force-moves-on-the-cat.gif", seen_count: 0
+    p.gifs.create! url: "http://i.imgur.com/SoE0tYl.gifv", seen_count: 0
+    b.gifs.create! url: "http://i.imgur.com/0fW3P6x.gifv", seen_count: 0
+    r.gifs.create! url: "http://i.imgur.com/c3Bmo0j.gifv", seen_count: 0
+    
+    get "/gif_list"
+
+    assert_equal 200, last_response.status
+
+    gifs = JSON.parse last_response.body
+    assert_equal 4, gifs.count
+
+    first_gif = gifs.first
+    assert_equal "http://moar.edgecats.net/cats/funny-gifs-force-moves-on-the-cat.gif", first_item["url"]
+  end
 end
 
 
