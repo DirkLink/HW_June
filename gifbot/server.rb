@@ -1,15 +1,34 @@
 require 'sinatra/base'
 
-require './todo'
+require './gifbot'
 
-class ToDoWeb < Sinatra::Base
+class GifBotWeb < Sinatra::Base
   set :logging, true
 
   post "/add" do
-    listicize = ToDoList.new
-    item = listicize.create_entry params[:list], params[:description], params[:due_date]
-    item.id.to_s
+    gifitize = GifBot.new
+    gif = gifitize.add_gif params[:username], params[:url]
+    gif.id.to_s
   end
+
+  get "/get_gif" do
+
+  end
+
+  get "/gif_list" do
+
+  end
+
+  post "/tag_gif" do
+
+  end
+
+
+  # post "/add" do
+  #   listicize = ToDoList.new
+  #   item = listicize.create_entry params[:list], params[:description], params[:due_date]
+  #   item.id.to_s
+  # end
 
   get "/list/:name" do
     list = List.find_by_list_name! params[:name]
