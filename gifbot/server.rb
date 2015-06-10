@@ -19,7 +19,9 @@ class GifBotWeb < Sinatra::Base
   end
 
   get "/gif_list" do
-
+    gifitize = GifBot.new
+    g = gifitize.all_gifs
+    g.to_json
   end
 
   post "/tag_gif" do

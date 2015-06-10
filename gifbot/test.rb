@@ -72,7 +72,7 @@ class GifBotTest < Minitest::Test
     assert_equal 4, gifs.count
 
     first_gif = gifs.first
-    assert_equal "http://moar.edgecats.net/cats/funny-gifs-force-moves-on-the-cat.gif", first_item["url"]
+    assert_equal "http://moar.edgecats.net/cats/funny-gifs-force-moves-on-the-cat.gif", first_gif["url"]
   end
 end
 
