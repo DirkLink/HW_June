@@ -1,6 +1,7 @@
 require 'minitest/autorun'
 require 'rack/test'
-
+require "minitest/reporters"
+Minitest::Reporters.use!
 require './db/setup'
 require './lib/all'
 
