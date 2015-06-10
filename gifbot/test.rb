@@ -36,6 +36,24 @@ class GifBotTest < Minitest::Test
     assert gif
     assert_equal gif.id.to_s, last_response.body
   end
+
+  def test_random_gifs
+    u = User.create! name: "shark" 
+    p = User.create! name: "pancake"
+    b = User.create! name: "baby"
+    r = User.create! name: "robot"
+    u.gifs.create! url: "http://i.imgur.com/mKrmlcP.gifv", seen_count: 0
+    p.gifs.create! url: "http://i.imgur.com/62Y5dHy.gif", seen_count: 0
+    b.gifs.create! url: "http://i.imgur.com/DcTnzPt.gif", seen_count: 0
+    r.gifs.create! url: "http://i.imgur.com/TPxSd6T.gif", seen_count: 0
+        
+    get "/get_gif"
+    # binding.pry
+    assert_equal 200, last_response.status
+    
+    assert_equal "true", last_response.body
+  end
+
 end
 
 
