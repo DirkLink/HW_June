@@ -13,7 +13,7 @@ class GifBot
   def random_gif
     g = Gif.all.sample
     g.has_been_seen!
-    g
+    g.to_json
   end
 
   def all_gifs
