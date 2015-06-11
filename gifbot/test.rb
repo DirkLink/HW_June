@@ -50,7 +50,7 @@ class GifBotTest < Minitest::Test
     get "/get_gif"
     assert_equal 200, last_response.status
     gif = JSON.parse last_response.body
-    assert_equal "1", gif["seen_count"]
+    assert_equal 1, gif["seen_count"]
   end
 
   def test_list_all_gifs
@@ -75,21 +75,21 @@ class GifBotTest < Minitest::Test
   end
 
   def test_annotate_gif_any_tag
-    g = gifs.create! url: "http://i.imgur.com/fi4buEv.gifv"
-    t = tags.create! name: "belly flop dive"
-
-    t.gif_tags tag_id: , gif_id: 
+    p = User.create! name: "pancake"
+    g = p.gifs.create! url: "http://i.imgur.com/fi4buEv.gifv", seen_count: 0
     
     post "/tag_gif",
     id: g.id,
-    tag_name: t.name 
+    tag_name: "belly flop dive"
 
     tagged = GifTag.find_by_gif_id g.id 
 
-    tagname = Tag.find(tagged_id)
+    tagname = Tag.find(tagged.id)
 
-    assert_equal t.id, tagged.tag_id
-    assert_equal 200, last response.status
+    t = JSON.parse last_response.body
+    assert_equal t["id"].to_i, tagged.tag_id
+
+    assert_equal 200, last_response.status
     assert_equal tagname.name, "belly flop dive"
 
   end

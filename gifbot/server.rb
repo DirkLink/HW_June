@@ -24,7 +24,9 @@ class GifBotWeb < Sinatra::Base
   end
 
   post "/tag_gif" do
-
+    gifitize = GifBot.new
+    t = gifitize.tag_gif params[:id], params[:tag_name]
+    t.to_json
   end
 
 

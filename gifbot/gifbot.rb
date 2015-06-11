@@ -25,6 +25,7 @@ class GifBot
     gif = Gif.find id
     #GifTag.create! tag_id: tag.id, gif_id: gif.id
     gif.tags << tag
+    tag
   end
 end
 
