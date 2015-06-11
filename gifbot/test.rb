@@ -94,14 +94,27 @@ class GifBotTest < Minitest::Test
 
   end
 
-  # def test_limit_list_tag
-  #   u = User.create! name: "croc" 
-  #   u.gifs.create! url: "http://i.imgur.com/mCRLB6W.gifv", seen_count: 0
-  #   u.gifs.create! url: "http://i.imgur.com/dBR0MKn.gifv", seen_count: 0
-  #   u.gifs.create! url: "http://i.imgur.com/O8yqH82.gifv", seen_count: 0
-  #   u.gifs.create! url: "http://i.imgur.com/uyHfOjV.gifv", seen_count: 0
+  def test_limit_list_tag
+    u = User.create! name: "croc" 
+    
+    gif1 = u.gifs.create! url: "http://i.imgur.com/mCRLB6W.gifv", seen_count: 0
+    gif2 = u.gifs.create! url: "http://i.imgur.com/dBR0MKn.gifv", seen_count: 0
+    gif3 = u.gifs.create! url: "http://i.imgur.com/O8yqH82.gifv", seen_count: 0
+    gif4 = u.gifs.create! url: "http://i.imgur.com/uyHfOjV.gifv", seen_count: 0
 
+    tag1 = gif1.tag_gif.create! gif1.id, "Animals"
+    tag2 = gif2.tag_gif.create! gif2.id, "Funny"
+    tag3 = gif3.tag_gif.create! gif3.id, "Gamer" 
+    tag4 = gif4.tag_gif.create! gif4.id, "Animals"
 
+    get "/gif_list/Animals"
+
+    list = JSON.parse last_response.body
+
+    assert_equal list.count, 2
+
+    assert_equal 200, last_response.status
+  end
 end
 
 
