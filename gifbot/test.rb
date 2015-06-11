@@ -48,10 +48,9 @@ class GifBotTest < Minitest::Test
     r.gifs.create! url: "http://i.imgur.com/TPxSd6T.gif", seen_count: 0
         
     get "/get_gif"
-    # binding.pry
     assert_equal 200, last_response.status
-    
-    assert_equal "true", last_response.body
+    gif = JSON.parse last_response.body
+    assert_equal "1", gif["seen_count"]
   end
 
   def test_list_all_gifs

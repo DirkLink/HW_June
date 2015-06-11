@@ -14,8 +14,7 @@ class GifBotWeb < Sinatra::Base
   get "/get_gif" do
     gifitize = GifBot.new
     gif = gifitize.random_gif
-    # g = Gif.all.pluck(:seen_count)
-    # g.include?(1).to_json
+    gif.to_json
   end
 
   get "/gif_list" do
