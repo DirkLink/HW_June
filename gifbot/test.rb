@@ -73,6 +73,64 @@ class GifBotTest < Minitest::Test
     first_gif = gifs.first
     assert_equal "http://moar.edgecats.net/cats/funny-gifs-force-moves-on-the-cat.gif", first_gif["url"]
   end
+
+  def test_annotate_gif_any_tag
+    g = gifs.create! url: "http://i.imgur.com/fi4buEv.gifv"
+    t = tags.create! name: "belly flop dive"
+
+    t.gif_tags tag_id: , gif_id: 
+    
+    post "/tag_gif",
+    id: g.id,
+    tag_name: t.name 
+
+    tagged = GifTag.find_by_gif_id g.id 
+
+    tagname = Tag.find(tagged_id)
+
+    assert_equal t.id, tagged.tag_id
+    assert_equal 200, last response.status
+    assert_equal tagname.name, "belly flop dive"
+
+  end
+
+  # def test_limit_list_tag
+  #   u = User.create! name: "croc" 
+  #   u.gifs.create! url: "http://i.imgur.com/mCRLB6W.gifv", seen_count: 0
+  #   u.gifs.create! url: "http://i.imgur.com/dBR0MKn.gifv", seen_count: 0
+  #   u.gifs.create! url: "http://i.imgur.com/O8yqH82.gifv", seen_count: 0
+  #   u.gifs.create! url: "http://i.imgur.com/uyHfOjV.gifv", seen_count: 0
+
+
 end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
