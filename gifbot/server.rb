@@ -13,14 +13,24 @@ class GifBotWeb < Sinatra::Base
 
   get "/get_gif" do
     gifitize = GifBot.new
-    gif = gifitize.random_gif
-    gif.to_json
+    if params[:tag] 
+      gif = gifitize.random_gif_by_tag params[:tag]
+      gif.to_json
+    else
+      gif = gifitize.random_gif
+      gif.to_json
+    end
   end
 
   get "/gif_list" do
     gifitize = GifBot.new
-    g = gifitize.all_gifs
-    g.to_json
+     if params[:tag] 
+      g = gifitize.list_by_tag params[:tag]
+      g.to_json
+    else
+      g = gifitize.all_gifs
+      g.to_json
+    end
   end
 
   post "/tag_gif" do

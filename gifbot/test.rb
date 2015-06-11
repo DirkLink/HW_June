@@ -84,13 +84,12 @@ class GifBotTest < Minitest::Test
 
     tagged = GifTag.find_by_gif_id g.id 
 
-    tagname = Tag.find(tagged.id)
-
     t = JSON.parse last_response.body
+
     assert_equal t["id"].to_i, tagged.tag_id
 
     assert_equal 200, last_response.status
-    assert_equal tagname.name, "belly flop dive"
+
 
   end
 
@@ -102,16 +101,60 @@ class GifBotTest < Minitest::Test
     gif3 = u.gifs.create! url: "http://i.imgur.com/O8yqH82.gifv", seen_count: 0
     gif4 = u.gifs.create! url: "http://i.imgur.com/uyHfOjV.gifv", seen_count: 0
 
-    tag1 = gif1.tag_gif.create! gif1.id, "Animals"
-    tag2 = gif2.tag_gif.create! gif2.id, "Funny"
-    tag3 = gif3.tag_gif.create! gif3.id, "Gamer" 
-    tag4 = gif4.tag_gif.create! gif4.id, "Animals"
+    post "/tag_gif",
+      id: gif1.id,
+      tag_name: "Animals"
 
-    get "/gif_list/Animals"
+    post "/tag_gif",
+      id: gif2.id,
+      tag_name: "Funny"
 
-    list = JSON.parse last_response.body
+    post "/tag_gif",
+      id: gif3.id,
+      tag_name: "Gamer"
 
-    assert_equal list.count, 2
+    post "/tag_gif",
+      id: gif4.id,
+      tag_name: "Animals"
+
+    get "/gif_list", tag: "Animals"
+
+
+     list = JSON.parse last_response.body
+
+    assert_equal 2, list.count
+
+    assert_equal 200, last_response.status
+  end
+
+  def test_random_with_tag
+    u = User.create! name: "croc" 
+    
+    gif1 = u.gifs.create! url: "http://i.imgur.com/mCRLB6W.gifv", seen_count: 0
+    gif2 = u.gifs.create! url: "http://i.imgur.com/dBR0MKn.gifv", seen_count: 0
+    gif3 = u.gifs.create! url: "http://i.imgur.com/O8yqH82.gifv", seen_count: 0
+    gif4 = u.gifs.create! url: "http://i.imgur.com/uyHfOjV.gifv", seen_count: 0
+
+    post "/tag_gif",
+      id: gif1.id,
+      tag_name: "Animals"
+
+    post "/tag_gif",
+      id: gif2.id,
+      tag_name: "Funny"
+
+    post "/tag_gif",
+      id: gif3.id,
+      tag_name: "Gamer"
+
+    post "/tag_gif",
+      id: gif4.id,
+      tag_name: "Animals"
+
+    get "/get_gif", tag: "Animals"
+
+    gif = JSON.parse last_response.body
+    assert_equal 1, gif["seen_count"]
 
     assert_equal 200, last_response.status
   end
